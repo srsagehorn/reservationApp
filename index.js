@@ -1,40 +1,64 @@
-// * Create a basic server using Express.JS
+// * Create a basic server using Express.JS and heroku
 var express = require("express")
 var path = require("path")
 
 var app = express()
 var PORT = process.env.PORT || 3000
 
+// start up express app to handle data parsing
 app.use(express.urlencoded({extended: true}))
 app.use(express.json())
 // * Create a few array variables that will hold the data
-var waitlist = []
+var waitlist = [
+{
+    name:"",
+    phoneNumber:"",
+    email:"",
+    uniqueId:"Shan",
+}
+]
 
-var reservations = []
+var tables = [
+{
+    name:"Shannon Sagehorn",
+    phoneNumber:"314-974-8036",
+    email:"srsagehorn@gmail.com",
+    uniqueId:"Shan"
+}
+]
 
+// HTML get requests
+app.get("/home", function (req, res) {
+    res.sendFile(path.join(___dirname, "/index.html"))
+})
+
+app.get("/tables", function (req, res) {
+    res.sendFile(path.join(___dirname, "/tables.html"))
+})
+
+app.get("/reserve", function (req, res) {
+    res.sendFile(path.join(___dirname, "/reservations.html"))
+})
+// post info to respective arrays based on number of tables available
+app.post("/api/tables", function (req, res) {
+    function deciding () {
+        if (tables.length , 5) {
+            var newTable = req.body
+            tables.push(newTable);
+        }
+        waitlist.push(newTable)
+        res.json(true)
+    }
+})
+
+// starts the server to begin llistening
 app.listen(PORT, function() {
     console.log("App listening" + ${PORT})
 })
 
-// * Create the front-end (visuals) for home page, reservation form, and reservation views.
-
-// * Create a set of routes for getting and posting table data
-// * Create a set of routes for displaying the HTML pages
 // * Use jQuery to run AJAX calls to GET and POST data from users to the Express server
 // ### DEMO for reference: 
 // [http://hot-restaurant.herokuapp.com](http://hot-restaurant.herokuapp.com)
-// ### Some helpful resources:
-// * Look at last lesson's Star Wars App
-// * [https://scotch.io/tutorials/build-a-restful-api-using-node-and-express-4](https://scotch.io/tutorials/build-a-restful-api-using-node-and-express-4)
-// * [https://scotch.io/tutorials/use-expressjs-to-get-url-and-post-parameters](https://scotch.io/tutorials/use-expressjs-to-get-url-and-post-parameters)
-// ---------------------
-// ## Phase II - For this second phase, aim to complete the following
-// * Backend Team:
-// Create a basic Express server.
-// Your server at this point should do the BARE MINIMUM. (Effectively, it should just say: "Listening at PORT 3000" when the command node server.js is run.)
-// * Frontend Team:
-// Create three HTML files one called home.html, another called tables.html, and another called reserve.html. Use dummy data and create pages similar to the one shown to you on the sample Hot Reservation webpage.
-// All: If you finish early, begin thinking about how the Data, API, and Routes should look.
 // ---------------------
 // ## Phase III - For this third phase, aim to complete the following
 // * Backend Team:
