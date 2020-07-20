@@ -12,6 +12,7 @@
     />
     <link rel="stylesheet" href="style.css" />
     <script src="https://kit.fontawesome.com/c502137733.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
   </head>
 
   <body>
@@ -62,15 +63,42 @@
             <input type="text" class="form-control" id="uniqueID" />
           </div>
 
-          <button type="submit" class="btn btn-primary">Submit</button>
+          <button type="submit" class="btn btn-primary submitBtn">
+            Submit
+          </button>
         </form>
       </div>
     </div>
     <div>
       <p>
         <a href="/api/tables">API Table Link</a> |
-        <a href="/api/reservations">API Wait List</a>
+        <a href="/api/waitlist">API Wait List</a>
       </p>
     </div>
+
+    <script type="text/javascript">
+      $(".submitBtn").on("click", function (event) {
+        event.preventDefault();
+
+        var newTable = {
+          name: $("#name").val().trim(),
+          phoneNumber: $("#phoneNumber").val().trim(),
+          email: $("#email").val().trim(),
+          uniqueID: $("#uniqueID").val().trim(),
+        };
+
+        console.log(newTable);
+
+        $.post("/api/tables", newTable, function (data) {
+          if (data) {
+            alert("You have booked a reservation.");
+          } else {
+            alert(
+              "No tables available.  You have been placed on the wait list."
+            );
+          }
+        });
+      });
+    </script>
   </body>
 </html>

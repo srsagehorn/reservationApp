@@ -10,23 +10,9 @@ app.use(express.static("public"));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 // * Create a few array variables that will hold the data
-var waitlist = [
-  {
-    name: "",
-    phoneNumber: "",
-    email: "",
-    uniqueId: "Shan",
-  },
-];
+var waitlist = [];
 
-var tables = [
-  {
-    name: "Shannon Sagehorn",
-    phoneNumber: "314-974-8036",
-    email: "srsagehorn@gmail.com",
-    uniqueId: "Shan",
-  },
-];
+var tables = [];
 
 // HTML get requests
 app.get("/", function (req, res) {
@@ -45,7 +31,7 @@ app.get("/api/tables", function (req, res) {
   return res.json(tables);
 });
 
-app.get("/api/reservations", function (req, res) {
+app.get("/api/waitlist", function (req, res) {
   return res.json(waitlist);
 });
 
@@ -55,12 +41,16 @@ app.post("/api/tables", function (req, res) {
   if (tables.length < 5) {
     tables.push(newTable);
     res.json(true);
+  } else {
+    waitlist.push(newTable);
+    res.json(true);
   }
-  waitlist.push(newTable);
-  res.json(true);
 });
 
 // starts the server to begin llistening
 app.listen(PORT, function () {
   console.log("App listening" + PORT);
 });
+
+
+$(".currentReservations").text(`<li class="list-group-item">Name: ${} Email: ${} Phone: ${}<li>`)
