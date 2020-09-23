@@ -12,6 +12,7 @@
     />
     <link rel="stylesheet" href="style.css" />
     <script src="https://kit.fontawesome.com/c502137733.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
   </head>
 
   <body>
@@ -36,22 +37,46 @@
     <div class="card">
       <h5 class="card-header">Current Reservations</h5>
       <div class="card-body">
-        <p class="card-text currentReservations"></p>
+        <ul
+          class="list-group list-group-flush card-text"
+          id="currentReservations"
+        >
+          <li></li>
+        </ul>
       </div>
 
       <div class="card">
         <h5 class="card-header">Waiting List</h5>
         <div class="card-body">
-          <p class="card-text waitingList"></p>
+          <ul class="list-group list-group-flus card-text" id="waitlist"></ul>
         </div>
       </div>
     </div>
     <div>
       <p>Control Panel</p>
       <p>
-        <a href="#">Clear Table</a> | <a href="#">API Table Link</a> |
-        <a href="#">API Wait List</a>
+        <a href="#">Clear Table</a> | <a href="/api/tables">API Table Link</a> |
+        <a href="/api/waitlist">API Wait List</a>
       </p>
     </div>
+
+    <script>
+      $.get("/api/tables").then(function (tables) {
+        // populate reservations with current res info
+        for (let i = 0; i < tables.length; i++) {
+          $("#currentReservations").append(
+            `<li class="list-group-item">Name: ${tables[i].name}<br>Email: ${tables[i].email}<br>Phone: ${tables[i].phoneNumber}<br>UniqueID: ${tables[i].uniqueID}<li>`
+          );
+        }
+      });
+
+      $.get("/api/waitlist").then(function (waitlist) {
+        for (let i = 0; i < waitlist.length; i++) {
+          $("#waitlist").append(
+            `<li class="list-group-item">Name: ${waitlist[i].name}<br>Email: ${waitlist[i].email}<br>Phone: ${waitlist[i].phoneNumber}<br>UniqueID: ${waitlist[i].uniqueID}<li>`
+          );
+        }
+      });
+    </script>
   </body>
 </html>

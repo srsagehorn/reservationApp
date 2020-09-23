@@ -38,19 +38,16 @@ app.get("/api/waitlist", function (req, res) {
 // post info to respective arrays based on number of tables available
 app.post("/api/tables", function (req, res) {
   var newTable = req.body;
-  if (tables.length < 5) {
+  if (tables.length <= 5) {
     tables.push(newTable);
     res.json(true);
   } else {
     waitlist.push(newTable);
-    res.json(true);
+    res.json(false);
   }
 });
 
-// starts the server to begin llistening
+// starts the server to begin listening
 app.listen(PORT, function () {
   console.log("App listening" + PORT);
 });
-
-
-$(".currentReservations").text(`<li class="list-group-item">Name: ${} Email: ${} Phone: ${}<li>`)
